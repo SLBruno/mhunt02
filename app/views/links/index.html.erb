@@ -1,0 +1,36 @@
+<div class='container'>
+<% @links.each do |link| %>
+    <% VideoInfo.provider_api_keys = { youtube: 'AIzaSyAdo38I0lemPp5gZvo6ejA0n2fnmK346iM', vimeo: 'YOUR_VIMEO_API_KEY' } %>
+    <% video_url = link.url %>
+    <% video = VideoInfo.new(video_url) %>
+  
+  <div class="link row clearfix">
+    <h2>
+      <div class="image_tag">
+        <%= image_tag(video.thumbnail_medium) %> 
+        <div class="duracao">
+        <% time = video.duration %>
+        <%= Time.at(time).gmtime.strftime('%R:%S') %>  
+        </div>
+      </div>
+      <%= link_to video.title, link %><br>
+      <div class="small"><%= truncate(video.description, :length => 200) %></div>
+        <small class="autor"> Enviado em <time_ago_in_words(link.created_at) %> por <%= link.user.email %></small>
+    </h2>
+
+    <div class="btn-group">
+      <a class="btn btn-default btn-sm" href="<%= link.url %>">Visit Link</a>
+        <%= link_to like_link_path(link), method: :put, class: "btn btn-default btn-sm" do %>
+        <span class="glyphicon glyphicon-chevron-up"></span>
+        Gostei
+        <%= link.get_upvotes.size %>
+      <% end %>
+        <%= link_to dislike_link_path(link), method: :put, class: "btn btn-default btn-sm" do %>
+        <span class="glyphicon glyphicon-chevron-down">
+        Não Gostei
+        <%= link.get_downvotes.size %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<% end %>
