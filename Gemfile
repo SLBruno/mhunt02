@@ -18,3 +18,4 @@ gem 'sqlite3'
 
 #add by Bruno
 gem 'video_info', '~> 2.5'
+gem 'masonry-rails', '~> 0.2.4'
